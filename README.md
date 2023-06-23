@@ -5,7 +5,9 @@ NixOS on an Intel MacBook with a T2 chip.
 # Recommended reading
 
 Best guide BUT assumes familiarity with Linux `mkfs.ext4` and skips its steps: [SuperUser](https://superuser.com/questions/795879/how-to-configure-dual-boot-nixos-with-mac-os-x-on-an-uefi-macbook)
+
 Reading currently but looks great: [Ray Harris @ dev.to](https://dev.to/raymondgh/day-4-reinstalling-nixos-on-my-apfs-t2-intel-macbook-pro-265n)
+
 Ready-made ISO: [t2linux on GitHub](https://github.com/t2linux/nixos-t2-iso/releases)
 
 # Instructions
