@@ -44,6 +44,7 @@
       enable = true;
       enableSSHSupport = true;
     };
+    hyprland.enable = true;
     mtr.enable = true;
   };
   services = {
