@@ -14,6 +14,7 @@ in {
   environment.systemPackages = with pkgs; [
     gitFull
     helix
+    kitty
   ];
   hardware.firmware = [
     (pkgs.stdenvNoCC.mkDerivation {
