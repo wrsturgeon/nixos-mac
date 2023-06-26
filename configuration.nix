@@ -19,7 +19,6 @@ in {
     dunst
     kitty
     pipewire
-    qt6-wayland
     wireplumber
   ];
   hardware.firmware = [
