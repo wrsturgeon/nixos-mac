@@ -1,9 +1,11 @@
-{ config, pkgs, ... }: let
-  flake-compat = builtins.fetchTarball "https://github.com/edolstra/flake-compat/archive/master.tar.gz";
-  hyprland = (import flake-compat {
-    src = builtins.fetchTarball "https://github.com/hyprwm/Hyprland/archive/master.tar.gz";
-  }).defaultNix;
-in {
+{ config, pkgs, ... }:
+# let
+#   flake-compat = builtins.fetchTarball "https://github.com/edolstra/flake-compat/archive/master.tar.gz";
+#   hyprland = (import flake-compat {
+#     src = builtins.fetchTarball "https://github.com/hyprwm/Hyprland/archive/master.tar.gz";
+#   }).defaultNix;
+# in
+{
   boot.loader = {
     systemd-boot.enable = true;
     efi = {
@@ -16,11 +18,11 @@ in {
     helix
 
     # Hyprland required packages
-    dunst
-    kitty
-    pipewire
-    polkit-kde-agent
-    wireplumber
+    # dunst
+    # kitty
+    # pipewire
+    # polkit-kde-agent
+    # wireplumber
   ];
   hardware.firmware = [
     (pkgs.stdenvNoCC.mkDerivation {
@@ -36,7 +38,7 @@ in {
   imports = [
     ./hardware-configuration.nix
     "${builtins.fetchGit { url = "https://github.com/kekrby/nixos-hardware.git"; }}/apple/t2"
-    hyprland.nixosModules.default
+    # hyprland.nixosModules.default
   ];
   networking = {
     hostName = "macbook-nixos";
@@ -49,7 +51,7 @@ in {
   };
   nixpkgs = {
     config.allowUnfree = true; # :_(
-    overlays = [ hyprland.overlays.default ];
+    # overlays = [ hyprland.overlays.default ];
   };
   programs = {
     git = {
@@ -61,20 +63,20 @@ in {
       enable = true;
       enableSSHSupport = true;
     };
-    hyprland = {
-      enable = true;
-      package = hyprland.packages.${pkgs.system}.default;
-      xwayland = {
-        enable = true;
-        hidpi = false;
-      };
-    };
+    # hyprland = {
+    #   enable = true;
+    #   package = hyprland.packages.${pkgs.system}.default;
+    #   xwayland = {
+    #     enable = true;
+    #     hidpi = false;
+    #   };
+    # };
     mtr.enable = true;
   };
   services = {
     openssh.enable = true;
     xserver = {
-      # desktopManager.gnome.enable = true;
+      desktopManager.gnome.enable = true;
       displayManager.gdm = {
         enable = true;
         wayland = true;
