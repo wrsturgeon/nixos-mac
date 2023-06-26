@@ -12,8 +12,16 @@ in {
     };
   };
   environment.systemPackages = with pkgs; [
-    helix
     gitFull
+    helix
+
+    # Hyprland
+    dunst
+    kitty
+    pipewire
+    qt5-wayland
+    qt6-wayland
+    wireplumber
   ];
   hardware.firmware = [
     (pkgs.stdenvNoCC.mkDerivation {
@@ -59,7 +67,7 @@ in {
       package = hyprland.packages.${pkgs.system}.default;
       xwayland = {
         enable = true;
-        hidpi = true;
+        hidpi = false;
       };
     };
     mtr.enable = true;
