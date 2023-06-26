@@ -19,7 +19,6 @@ in {
     dunst
     kitty
     pipewire
-    qt5-wayland
     qt6-wayland
     wireplumber
   ];
