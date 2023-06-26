@@ -56,7 +56,11 @@ in {
     };
     hyprland = {
       enable = true;
-      package = pkgs.hyprland;
+      package = hyprland.packages.${pkgs.system}.default;
+      xwayland = {
+        enable = true;
+        hidpi = true;
+      };
     };
     mtr.enable = true;
   };
