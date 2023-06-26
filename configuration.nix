@@ -6,10 +6,9 @@
       efiSysMountPoint = "/boot/efi";
     };
   };
-  console.font = "ter-v32n";
   environment.systemPackages = with pkgs; [
     helix
-    git
+    gitFull
   ];
   hardware.firmware = [
     (pkgs.stdenvNoCC.mkDerivation {
@@ -26,11 +25,21 @@
     ./hardware-configuration.nix
     "${builtins.fetchGit { url = "https://github.com/kekrby/nixos-hardware.git"; }}/apple/t2"
   ];
-  network = {
+  networking = {
     hostName = "macbook-nixos";
     networkmanager.enable = true;
   };
+  nix = {
+    extraOptions = "experimental-features = nix-command flakes";
+    package = pkgs.nixUnstable;
+    settings.experimental-features = [ "flakes" "nix-command" ];
+  };
   programs = {
+    git = {
+      enable = true;
+      package = pkgs.gitFull;
+      config.credential.helper = "libsecret";
+    };
     gnupg.agent = {
       enable = true;
       enableSSHSupport = true;
@@ -48,7 +57,12 @@
     };
   };
   system = {
-    autoUpgrade.enable = true;
+    autoUpgrade = {
+      dates = "04:00";
+      enable = true;
+      flags = [ "--update-input" "nixpkgs" ];
+      allowReboot = true;
+    };
     copySystemConfiguration = true;
     stateVersion = "23.05";
   };

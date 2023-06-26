@@ -61,7 +61,8 @@ mkswap -L NIXSWAP /dev/disk/by-label/NIXSWAP
 mkfs.ext4 -L NIXOS /dev/disk/by-label/NIXOS
 ```
 
-Let's follow up on the firmware stuff from earlier. If you had different commands earlier, run those; otherwise, run these, which are _basically_ the same but more reliable:
+Let's follow up on the firmware stuff from earlier. If you had different commands earlier, run those; otherwise, run these, which are _basically_ the same but more reliable.
+If the first command (`umount` . . .) fails, don't worry; just skip it.
 ```
 umount /dev/nvme0n1p1
 mkdir /tmp/apple-wifi-efi
@@ -105,19 +106,29 @@ Now for the Nix-specific stuff:
 nixos-generate-config --root /mnt
 ```
 
-Then, delete `configuration.nix` and copy in `configuration.nix` from this repo, with the exception of your username and settings (duh).
+Then, copy the configuration from this repository onto your machine:
+```
+git clone https://github.com/wrsturgeon/nixos-mac.git
+mv nixos-mac/configuration.nix /mnt/etc/nixos/configuration.nix
+```
+Change the system packages (search for `helix` and replace it if you'd like, but I'd recommend keeping `git`) and add your user account (search `users` and replace `will` with your name of choice).
 You can run `nano configuration.nix` for a simple text editor; when you're done, hit Control-`X` (not command! this is Linux) and respond to the prompt with `y`.
+
+Last thing to do is to copy the WiFi firmware over:
+```
+mkdir -p /mnt/etc/nixos/firmware/brcm
+cp -r /lib/firmware/brcm/* /mnt/etc/nixos/firmware/brcm/
+```
 
 Only two more steps!
 ```
 nixos-install
 reboot
 ```
+When you reboot, choose the metal-looking "EFI Boot." Welcome home!
 
 # Recommended reading and sources I want to credit
 
-Fantastic guide, most of my configuration came from here: [Ray Harris @ dev.to](https://dev.to/raymondgh/day-4-reinstalling-nixos-on-my-apfs-t2-intel-macbook-pro-265n)
+Fantastic guide that almost singlehandedly led me through this: [Ray Harris @ dev.to](https://dev.to/raymondgh/day-4-reinstalling-nixos-on-my-apfs-t2-intel-macbook-pro-265n)
 
-Another shorter guide that assumes familiarity with `mkfs.ext4` et al.: [SuperUser](https://superuser.com/questions/795879/how-to-configure-dual-boot-nixos-with-mac-os-x-on-an-uefi-macbook)
-
-Ready-made `.iso`s: [t2linux on GitHub](https://github.com/t2linux/nixos-t2-iso/releases)
+Shorter guide that assumes familiarity with `mkfs.ext4` et al.: [SuperUser](https://superuser.com/questions/795879/how-to-configure-dual-boot-nixos-with-mac-os-x-on-an-uefi-macbook)
