@@ -34,6 +34,7 @@
     package = pkgs.nixUnstable;
     settings.experimental-features = [ "flakes" "nix-command" ];
   };
+  nixpkgs.config.allowUnfree = true; # :_(
   programs = {
     git = {
       enable = true;
@@ -44,14 +45,20 @@
       enable = true;
       enableSSHSupport = true;
     };
-    hyprland.enable = true;
+    hyprland = {
+      enable = true;
+      xwayland.enable = true;
+    };
     mtr.enable = true;
   };
   services = {
     openssh.enable = true;
     xserver = {
-      desktopManager.gnome.enable = true;
-      displayManager.gdm.enable = true;
+      # desktopManager.gnome.enable = true;
+      displayManager.gdm = {
+        enable = true;
+        wayland = true;
+      };
       enable = true;
       layout = "us";
       libinput.enable = true;
