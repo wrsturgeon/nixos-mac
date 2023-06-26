@@ -1,4 +1,9 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, ... }: let
+  flake-compat = builtins.fetchTarball "https://github.com/edolstra/flake-compat/archive/master.tar.gz";
+  hyprland = (import flake-compat {
+    src = builtins.fetchTarball "https://github.com/hyprwm/Hyprland/archive/master.tar.gz"
+  }).defaultNix;
+in {
   boot.loader = {
     systemd-boot.enable = true;
     efi = {
@@ -24,6 +29,7 @@
   imports = [
     ./hardware-configuration.nix
     "${builtins.fetchGit { url = "https://github.com/kekrby/nixos-hardware.git"; }}/apple/t2"
+    hyprland.nixosModules.default
   ];
   networking = {
     hostName = "macbook-nixos";
@@ -34,7 +40,10 @@
     package = pkgs.nixUnstable;
     settings.experimental-features = [ "flakes" "nix-command" ];
   };
-  nixpkgs.config.allowUnfree = true; # :_(
+  nixpkgs = {
+    config.allowUnfree = true; # :_(
+    overlays = [ hyprland.overlays.default ];
+  };
   programs = {
     git = {
       enable = true;
@@ -47,7 +56,7 @@
     };
     hyprland = {
       enable = true;
-      xwayland.enable = true;
+      package = pkgs.hyprland;
     };
     mtr.enable = true;
   };
