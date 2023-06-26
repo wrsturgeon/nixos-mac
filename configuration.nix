@@ -14,12 +14,6 @@ in {
   environment.systemPackages = with pkgs; [
     gitFull
     helix
-
-    # Hyprland
-    dunst
-    kitty
-    pipewire
-    wireplumber
   ];
   hardware.firmware = [
     (pkgs.stdenvNoCC.mkDerivation {
