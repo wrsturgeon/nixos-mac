@@ -103,7 +103,9 @@
     isNormalUser = true;
     packages = with pkgs; [
       arduino
+      cargo
       firefox
+      rustc
     ];
   };
 }
