@@ -14,7 +14,13 @@ in {
   environment.systemPackages = with pkgs; [
     gitFull
     helix
+
+    # Hyprland required packages
+    dunst
     kitty
+    pipewire
+    polkit-kde-agent
+    wireplumber
   ];
   hardware.firmware = [
     (pkgs.stdenvNoCC.mkDerivation {
