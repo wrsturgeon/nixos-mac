@@ -79,7 +79,7 @@
     extraGroups = [ "networkmanager" "wheel" ];
     isNormalUser = true;
     packages = with pkgs; [
-      cargo # Rust
+      cargo # Rust (for `cargo new`; the project should use Nix)
       firefox # Browser
       nil # Nix language server
       tree # Better `ls`
