@@ -82,7 +82,6 @@
       element-desktop # Matrix client
       firefox # Browser
       nil # Nix language server
-      rxvt # Terminal
       tree # Better `ls`
     ];
   };
