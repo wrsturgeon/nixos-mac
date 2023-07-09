@@ -1,11 +1,4 @@
-{ config, pkgs, ... }:
-# let
-#   flake-compat = builtins.fetchTarball "https://github.com/edolstra/flake-compat/archive/master.tar.gz";
-#   hyprland = (import flake-compat {
-#     src = builtins.fetchTarball "https://github.com/hyprwm/Hyprland/archive/master.tar.gz";
-#   }).defaultNix;
-# in
-{
+{ config, pkgs, ... }: {
   boot.loader = {
     systemd-boot.enable = true;
     efi = {
@@ -16,13 +9,6 @@
   environment.systemPackages = with pkgs; [
     gitFull
     helix
-
-    # Hyprland required packages
-    # dunst
-    # kitty
-    # pipewire
-    # polkit-kde-agent
-    # wireplumber
   ];
   hardware.firmware = [
     (pkgs.stdenvNoCC.mkDerivation {
@@ -38,7 +24,7 @@
   imports = [
     ./hardware-configuration.nix
     "${builtins.fetchGit { url = "https://github.com/kekrby/nixos-hardware.git"; }}/apple/t2"
-    # hyprland.nixosModules.default
+    ./cachix.nix
   ];
   networking = {
     hostName = "macbook-nixos";
@@ -51,7 +37,6 @@
   };
   nixpkgs = {
     config.allowUnfree = true; # :_(
-    # overlays = [ hyprland.overlays.default ];
   };
   programs = {
     git = {
@@ -63,14 +48,6 @@
       enable = true;
       enableSSHSupport = true;
     };
-    # hyprland = {
-    #   enable = true;
-    #   package = hyprland.packages.${pkgs.system}.default;
-    #   xwayland = {
-    #     enable = true;
-    #     hidpi = false;
-    #   };
-    # };
     mtr.enable = true;
   };
   services = {
@@ -102,10 +79,9 @@
     extraGroups = [ "networkmanager" "wheel" ];
     isNormalUser = true;
     packages = with pkgs; [
-      arduino
-      cargo
-      firefox
-      rustc
+      firefox # Browser
+      nil # Nix language server
+      tree # Better `ls`
     ];
   };
 }
