@@ -79,6 +79,7 @@
     extraGroups = [ "networkmanager" "wheel" ];
     isNormalUser = true;
     packages = with pkgs; [
+      cargo # Rust
       firefox # Browser
       nil # Nix language server
       tree # Better `ls`
