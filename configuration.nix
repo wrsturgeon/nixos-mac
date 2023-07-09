@@ -24,7 +24,6 @@
   imports = [
     ./hardware-configuration.nix
     "${builtins.fetchGit { url = "https://github.com/kekrby/nixos-hardware.git"; }}/apple/t2"
-    ./cachix.nix
   ];
   networking = {
     hostName = "macbook-nixos";
@@ -40,9 +39,9 @@
   };
   programs = {
     git = {
+      # config.credential.helper = "${pkgs.git.override { withLibsecret = true; }}/bin/git-credential-libsecret";
       enable = true;
       package = pkgs.gitFull;
-      config.credential.helper = "libsecret";
     };
     gnupg.agent = {
       enable = true;
@@ -80,8 +79,10 @@
     isNormalUser = true;
     packages = with pkgs; [
       cargo # Rust (for `cargo new`; the project should use Nix)
+      element-desktop # Matrix client
       firefox # Browser
       nil # Nix language server
+      rxvt # Terminal
       tree # Better `ls`
     ];
   };
